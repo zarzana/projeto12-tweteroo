@@ -25,5 +25,5 @@ app.get('/tweets', (req, res) => {
     res.send(tweetsToSend);
 });
 
-const port = 4000;
+const port = 5000;
 app.listen(port, () => console.log(`Running server on port ${port}`));
