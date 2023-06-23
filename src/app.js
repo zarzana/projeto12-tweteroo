@@ -14,14 +14,21 @@ app.post('/sign-up', (req, res) => {
 });
 
 app.post('/tweets', (req, res) => {
-    if (!user) { res.send('“UNAUTHORIZED”') };
+    if (!user) {
+        res.status(401);
+        res.send('UNAUTHORIZED');
+    };
     tweets.push(req.body);
+    res.status(200);
     res.send('OK');
 });
 
 app.get('/tweets', (req, res) => {
     tweetsToSend = tweets.slice(-10);
-    if (tweetsToSend.lenght > 0) { tweetsToSend.forEach(tweet => { tweet.push(user.avatar) }) };
+    if (tweetsToSend.lenght > 0) {
+        tweetsToSend.forEach(tweet => { tweet.push(user.avatar) });
+    };
+    res.status(200);
     res.send(tweetsToSend);
 });
 
