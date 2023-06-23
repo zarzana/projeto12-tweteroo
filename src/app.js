@@ -24,7 +24,7 @@ app.post('/tweets', (req, res) => {
 });
 
 app.get('/tweets', (req, res) => {
-    tweetsToSend = tweets.slice(-10);
+    let tweetsToSend = tweets.slice(-10);
     if (tweetsToSend.lenght > 0) {
         tweetsToSend.forEach(tweet => { tweet['avatar'] = user.avatar });
     };
