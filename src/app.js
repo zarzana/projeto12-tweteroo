@@ -8,10 +8,31 @@ app.use(cors());
 let user;
 let tweets = [];
 
+function validatePostReqBody(req, keys) {
+    
+    let checker = (arr, target) => target.every(v => arr.includes(v));
+
+    if (!req.body.constructor == Object) {
+        return false
+    } else if (!checker(Object.keys(req.body), keys)) {
+        return false
+    } else {
+        return true
+    }
+
+}
+
 app.post('/sign-up', (req, res) => {
-    user = req.body;
-    res.send('OK');
-    return;
+    if (validatePostReqBody(req, ['username', 'avatar'])) {
+        user = req.body;
+        res.status(201);
+        res.send('OK');
+        return;
+    } else {
+        res.status(400);
+        res.send('Todos os campos são obrigatórios!');
+        return;
+    };
 });
 
 app.post('/tweets', (req, res) => {
@@ -19,18 +40,19 @@ app.post('/tweets', (req, res) => {
         res.status(401);
         res.send('UNAUTHORIZED');
         return;
+    } else if (validatePostReqBody(req, ['username', 'tweet'])) {
+        tweets.push(req.body);
+        res.status(201);
+        res.send('OK');
+        return;
+    } else {
+        res.status(400);
+        res.send('Todos os campos são obrigatórios!');
+        return;
     }
-    tweets.push(req.body);
-    res.status(200);
-    res.send('OK');
-    return;
 });
 
 app.get('/tweets', (req, res) => {
-    // let tweetsToSend = tweets.slice(-10);
-    // if (tweetsToSend.lenght > 0) {
-    //     tweetsToSend.forEach(tweet => { tweet['avatar'] = user.avatar });
-    // };
     let tweetsToSend = [];
     tweets.slice(-10).forEach(tweet => {
         let currentTweet = tweet;
