@@ -9,7 +9,7 @@ let user;
 let tweets = [];
 
 function validatePostReqBody(req, keys) {
-    
+
     let checker = (arr, target) => target.every(v => arr.includes(v));
 
     if (!req.body.constructor == Object) {
@@ -41,6 +41,8 @@ app.post('/tweets', (req, res) => {
         res.send('UNAUTHORIZED');
         return;
     } else if (validatePostReqBody(req, ['username', 'tweet'])) {
+        let tweet = req.body;
+        tweet['avatar'] = user.avatar;
         tweets.push(req.body);
         res.status(201);
         res.send('OK');
@@ -53,11 +55,16 @@ app.post('/tweets', (req, res) => {
 });
 
 app.get('/tweets', (req, res) => {
+    res.status(200);
+    res.send(tweets.slice(-10));
+    return;
+});
+
+app.get('/tweets/:username', (req, res) => {
+    const username = req.params.username;
     let tweetsToSend = [];
-    tweets.slice(-10).forEach(tweet => {
-        let currentTweet = tweet;
-        currentTweet['avatar'] = user.avatar;
-        tweetsToSend.push(currentTweet);
+    tweets.forEach(tweet => {
+        if (tweet['username'] == username) { tweetsToSend.push(currentTweet) };
     });
     res.status(200);
     res.send(tweetsToSend);
