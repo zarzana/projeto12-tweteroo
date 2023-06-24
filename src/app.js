@@ -17,7 +17,7 @@ function validatePostReqBody(req, keys) {
         return false;
     } else if (!checkContent(Object.keys(req.body), keys)) {
         return false;
-    } else if (!checkString(req.body.values())) {
+    } else if (!checkString(Object.values(req.body))) {
         return false;
     } else {
         return true;
