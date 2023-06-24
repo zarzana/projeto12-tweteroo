@@ -12,12 +12,23 @@ function validatePostReqBody(req, keys) {
 
     let checkContent = (arr, target) => target.every(v => arr.includes(v));
     let checkString = (arr) => new Set(arr.map(x => typeof x)).size <= 1 && typeof arr[0] == 'string';
+    let checkEmpty = (arr) => {
+        arr.forEach(e => {
+            if (e === '') {
+                return false
+            } else {
+                return true
+            };
+        });
+    };
 
     if (!req.body.constructor == Object) {
         return false;
     } else if (!checkContent(Object.keys(req.body), keys)) {
         return false;
     } else if (!checkString(Object.values(req.body))) {
+        return false;
+    } else if (!checkEmpty(Object.values(req.body))) {
         return false;
     } else {
         return true;
