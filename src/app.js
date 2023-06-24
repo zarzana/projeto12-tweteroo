@@ -10,14 +10,17 @@ let tweets = [];
 
 function validatePostReqBody(req, keys) {
 
-    let checker = (arr, target) => target.every(v => arr.includes(v));
+    let checkContent = (arr, target) => target.every(v => arr.includes(v));
+    let checkString = (arr) => new Set(arr.map(x => typeof x)).size <= 1 && typeof arr[0] == 'string';
 
     if (!req.body.constructor == Object) {
-        return false
-    } else if (!checker(Object.keys(req.body), keys)) {
-        return false
+        return false;
+    } else if (!checkContent(Object.keys(req.body), keys)) {
+        return false;
+    } else if (!checkString(req.body.values())) {
+        return false;
     } else {
-        return true
+        return true;
     }
 
 }
