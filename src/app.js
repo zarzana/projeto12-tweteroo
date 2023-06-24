@@ -14,12 +14,9 @@ function validatePostReqBody(req, keys) {
     let checkString = (arr) => new Set(arr.map(x => typeof x)).size <= 1 && typeof arr[0] == 'string';
     let checkEmpty = (arr) => {
         arr.forEach(e => {
-            if (e === '') {
-                return false
-            } else {
-                return true
-            };
+            if (e === '') { return false };
         });
+        return true;
     };
 
     if (!req.body.constructor == Object) {
