@@ -78,7 +78,7 @@ app.get('/tweets/:username', (req, res) => {
     const username = req.params.username;
     let tweetsToSend = [];
     tweets.forEach(tweet => {
-        if (tweet['username'] == username) { tweetsToSend.push(currentTweet) };
+        if (tweet['username'] == username) { tweetsToSend.push(tweet) };
     });
     res.status(200);
     res.send(tweetsToSend);
