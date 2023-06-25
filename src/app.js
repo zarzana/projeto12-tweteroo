@@ -13,7 +13,7 @@ function validatePostReqBody(req, keys) {
     let checkContent = (arr, target) => target.every(v => arr.includes(v));
     let checkString = (arr) => new Set(arr.map(x => typeof x)).size <= 1 && typeof arr[0] == 'string';
     let checkEmpty = (arr) => {
-        for (let i = 0; i < arr.length; i++) { 
+        for (let i = 0; i < arr.length; i++) {
             if (!arr[i]) { return false };
         };
         return true;
@@ -66,8 +66,18 @@ app.post('/tweets', (req, res) => {
 });
 
 app.get('/tweets', (req, res) => {
+    const reversedTweets = [...tweets].reverse();
+    if (req.query.page) {
+        if (req.query.page < 1) {
+            res.status(400);
+            res.send('Informe uma página válida!')
+        } else {
+            res.status(200);
+            res.send(reversedTweets.slice(req.query.page * 10 - 10, req.query.page * 10));
+        };
+    };
     res.status(200);
-    res.send(tweets.slice(-10));
+    res.send(reversedTweets.slice(0, 10));
     return;
 });
 
