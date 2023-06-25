@@ -73,12 +73,18 @@ app.post('/tweets', (req, res) => {
         return;
     } else if (validatePostReqBody(req, ['tweet'])) {
         let tweet = req.body;
-        tweet['avatar'] = user.avatar;
-        tweet['username'] = req.headers.user;
-        tweets.push(req.body);
-        res.status(201);
-        res.send('OK');
-        return;
+        if (req.header('user') != user.username) {
+            res.status(401);
+            res.send('UNAUTHORIZED');
+            return;
+        } else {
+            tweet['avatar'] = user.avatar;
+            tweet['username'] = user.username;
+            tweets.push(req.body);
+            res.status(201);
+            res.send('OK');
+            return;
+        }
     } else {
         res.status(400);
         res.send('Todos os campos são obrigatórios!');
