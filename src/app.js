@@ -46,14 +46,35 @@ app.post('/sign-up', (req, res) => {
     };
 });
 
+// POST/TWEETS - OLD IMPLEMENTATION - USERNAME ON BODY
+// app.post('/tweets', (req, res) => {
+//     if (!user) {
+//         res.status(401);
+//         res.send('UNAUTHORIZED');
+//         return;
+//     } else if (validatePostReqBody(req, ['username', 'tweet'])) {
+//         let tweet = req.body;
+//         tweet['avatar'] = user.avatar;
+//         tweets.push(req.body);
+//         res.status(201);
+//         res.send('OK');
+//         return;
+//     } else {
+//         res.status(400);
+//         res.send('Todos os campos são obrigatórios!');
+//         return;
+//     }
+// });
+
 app.post('/tweets', (req, res) => {
     if (!user) {
         res.status(401);
         res.send('UNAUTHORIZED');
         return;
-    } else if (validatePostReqBody(req, ['username', 'tweet'])) {
+    } else if (validatePostReqBody(req, ['tweet'])) {
         let tweet = req.body;
         tweet['avatar'] = user.avatar;
+        tweet['username'] = req.headers.user;
         tweets.push(req.body);
         res.status(201);
         res.send('OK');
