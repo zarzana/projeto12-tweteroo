@@ -13,9 +13,9 @@ function validatePostReqBody(req, keys) {
     let checkContent = (arr, target) => target.every(v => arr.includes(v));
     let checkString = (arr) => new Set(arr.map(x => typeof x)).size <= 1 && typeof arr[0] == 'string';
     let checkEmpty = (arr) => {
-        arr.forEach(e => {
-            if (e === '') { return false };
-        });
+        for (let i = 0; i < arr.length; i++) { 
+            if (!arr[i]) { return false };
+        };
         return true;
     };
 
